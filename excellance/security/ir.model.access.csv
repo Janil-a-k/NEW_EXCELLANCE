@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_termination_resignation,termination.resignation.group_user,model_termination_resignation,base.group_user,1,1,1,1
+

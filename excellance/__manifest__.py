@@ -1,0 +1,21 @@
+{
+    "name": "ManPower Project State",
+    "summary": "This Module is For Checking state in project",
+    "version": "14.0.1.3.5",
+    "author": "Enzapps",
+    "category": "base",
+    "images": ["images/galvanisation.jpg"],
+    "support": "info@enzapps.com",
+    "website": "https://www.enzapps.com/",
+    'depends': ['base', 'account', 'stock', 'product', 'sale_management', 'purchase', 'crm', 'contacts', 'hr',
+                'hr_contract', 'hr_timesheet', 'project', 'hr_expense', 'analytic', 'hr_recruitment', 'om_hr_payroll',
+                'enz_manpower','enz_manpower_overtime','om_hr_payroll_account'],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/scheduled_action.xml",
+        "wizard/termination_resigned.xml",
+        "views/project.xml",
+             ],
+    "installable": True,
+    "application":True,
+}

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="man_eetask_inherited" model="ir.ui.view">
+        <field name="name">Task Inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="state" widget="statusbar"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="completed_project" string="Completed" type="object" class="oe_highlight"
+                        attrs="{'invisible':[('state','=','completed')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="man_eeproject_inherited" model="ir.ui.view">
+        <field name="name">Project Inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="state" widget="statusbar"/>
+            </xpath>
+            <xpath expr="//button[@name='%(enz_manpower.action_salewizard)d']" position="after">
+                <button name="completed_project" string="Completed" type="object" class="oe_highlight"
+                        attrs="{'invisible':[('state','=','completed')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="man_eepayslip_inherited" model="ir.ui.view">
+        <field name="name">Payslip Inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="om_hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(om_hr_payroll.act_payslip_lines)d']" position="after">
+                <!--            <xpath expr="//div[@name='button_box']" position="inside">-->
+                <button class="oe_stat_button" type="object"
+                        name="action_view_payment" icon="fa-dollar" attrs="{'invisible':[('payment_count','=',0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="payment_count"/>
+                        </span>
+                        <span class="o_stat_text">Payment</span>
+                        <field name="payment_count" invisible="1"/>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="payable_amount"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Timesheet">
+                    <field name="timesheet_lines">
+                        <tree editable="bottom">
+                            <field name="date"/>
+                            <field name="project_id"/>
+                            <field name="task_id"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="employee_id" required="1" widget="many2one_avatar_employee"/>
+                            <field name="name" required="0"/>
+                            <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24"/>
+                            <field name="overtime_amt" widget="timesheet_uom" decoration-danger="overtime_amt &gt; 24"/>
+                            <field name="company_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//button[@name='refund_sheet']" position="after">
+                <button name="create_payment" type="object" class="oe_highlight" string="Payment"
+                        attrs="{'invisible':['|',('payment_count','=',1),('state','!=','done')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_manee" model="ir.ui.view">
+        <field name="name">Project Task External Man Power</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/tree//field[@name='unit_amount']" position="after">
+                <field name="overtime_amt"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_payment_inherit_me" model="ir.ui.view">
+        <field name="name">Account Payment Inherit Sale</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="payslip_id" attrs="{'invisible':[('payslip_visibility','=',False)]}"/>
+                <field name="payslip_visibility" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="man_eeemployee_inherited" model="ir.ui.view">
+        <field name="name">Employee Inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+<!--            <header>-->
+<!--                -->
+<!--            </header>-->
+            <xpath expr="//header" position="replace">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                <button name="%(excellance.action_termination_resignation)d" class="oe_highlight" string="Resigned"
+                        type="action" attrs="{'invisible':[('state','in',('terminated','resigned'))]}"
+                        context="{'default_filter_type':'resignation','default_employee_id':id}"/>
+                <button name="%(excellance.action_termination_resignation)d" class="oe_highlight" string="Terminated"
+                        type="action" attrs="{'invisible':[('state','in',('terminated','resigned'))]}"
+                        context="{'default_filter_type':'termination','default_employee_id':id}"/>
+                </header>
+            </xpath>
+<!--            <xpath expr="//button[@name='%(hr.plan_wizard_action)d']" position="after">-->
+<!--                -->
+<!--            </xpath>-->
+            <xpath expr="//notebook" postion="inside">
+                <page string="Employee Status" name="employee_status"
+                      attrs="{'invisible':[('employee_state_vis','=',False)]}">
+                    <group>
+                        <group>
+                            <field name="employee_state"/>
+                            <field name="reason"/>
+                            <field name="date"/>
+                            <field name="employee_state_vis" invisible="1"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

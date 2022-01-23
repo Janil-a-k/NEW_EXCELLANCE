@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_termination_resignation_form" model="ir.ui.view">
+            <field name="name">termination.resignation</field>
+            <field name="model">termination.resignation</field>
+            <field name="arch" type="xml">
+                <form string="Termination/Resignation">
+                    <footer>
+                        <button name="submit_data" string="Create" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="filter_type" invisible="1"/>
+                                <field name="reason" required="1"/>
+                                <field name="date" required="1"/>
+                                <field name="employee_id" invisible="1"/>
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_termination_resignation" model="ir.actions.act_window">
+            <field name="name">Termination/Resignation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">termination.resignation</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+    </data>
+</odoo>
